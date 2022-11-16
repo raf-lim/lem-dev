@@ -2,7 +2,7 @@
 name = "lem"
 version = "0.1.0"
 description = ""
-authors = ["Kacper Stypik", "Karol Bautrel"]
+authors = ["Kacper Stypik <kacper@stypik.pl>", "Karol Bautrel <karol.bautrel@gmail.com>"]
 license = "GNU General Public License v3"
 readme = "README.md"
 
