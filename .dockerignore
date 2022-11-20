@@ -5,3 +5,5 @@
 .idea
 .pre-commit-config.yaml
 venv
+**/__pycache__
+**/*.pyc
