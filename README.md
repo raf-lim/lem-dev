@@ -6,9 +6,9 @@ Social media for book lovers (similar to Goodreads)
 To maintain consistent coding style, we settled on [EditorConfig](https://editorconfig.org/). The installation process is different depending on your editor:
 * PyCharm has support for EditorConfig out of the box
 * VSCode [needs a plugin](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
-* If you use another editor reference to: https://editorconfig.org/#pre-installed or https://editorconfig.org/#download
+* If you use another editor, reference to https://editorconfig.org/#pre-installed and https://editorconfig.org/#download
 ## Installing Poetry
-LEM is using [Poetry](https://python-poetry.org/) as a package manager. Check out [its documentation](https://python-poetry.org/docs/#installation) to learn how to install it. Unles you know what you are doing, we recommend following the installation steps with the official installer.
+LEM is using [Poetry](https://python-poetry.org/) as a package manager. Check out [its documentation](https://python-poetry.org/docs/#installation) to learn how to install it. Unless you know what you are doing, we recommend following the installation steps with the official installer.
 
 After the installation process, ensure Poetry is installed correctly by typing
 ```
@@ -21,13 +21,13 @@ poetry self add poetry-plugin-export
 ```
 
 ## Installing Docker
-To install Docker head over to [the official documentation](https://docs.docker.com/get-docker/) and find instructions for your Operating System. With Docker Desktop you can start Docker conveniently from the tray.
+To install Docker, head to [the official documentation](https://docs.docker.com/get-docker/). You can find instructions for your Operating System there. With Docker Desktop, you can start Docker conveniently from the tray.
 Make sure Docker is up and running:
 ```
 docker --version
 ```
 
-## Getting your hands on the project
+## Running the project
 Clone the repository (make sure you have git installed):
 ```
 git clone https://github.com/LemCommunity/lem.git
@@ -55,7 +55,7 @@ http://localhost:8000/
 ```
 If you see the 404 page, then everything is correct.
 
-It might be a good idea to create a super user so you can access the Django Admin panel.
+Consider creating a superuser to access the Django Admin panel
 ```
 docker-compose run django python manage.py createsuperuser
 ```
