@@ -1,4 +1,6 @@
 # LEM
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/LemCommunity/lem/main.svg)](https://results.pre-commit.ci/latest/github/LemCommunity/lem/main)
+
 Social media for book lovers (similar to Goodreads)
 
 # Getting started
