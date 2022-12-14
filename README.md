@@ -63,6 +63,10 @@ docker-compose run django python manage.py createsuperuser
 ```
 
 ## Docker Cheat Sheet
+Stopping containers:
+```
+docker-compose stop
+```
 See logs for a particular service:
 ```
 docker-compose logs <SERVICE_NAME>
