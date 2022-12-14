@@ -50,3 +50,5 @@ jobs:
         run:  docker-compose run django pytest
       - name: Tear down the Stack
         run:  docker-compose down
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@1.1.3
