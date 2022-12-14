@@ -51,4 +51,6 @@ jobs:
       - name: Tear down the Stack
         run:  docker-compose down
       - name: Coveralls GitHub Action
+        with:
+          github-token: ${{ secrets.github_token }}
         uses: coverallsapp/github-action@1.1.3
