@@ -1,5 +1,5 @@
 # LEM
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/LemCommunity/lem/main.svg)](https://results.pre-commit.ci/latest/github/LemCommunity/lem/main)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/LemCommunity/lem/main.svg)](https://results.pre-commit.ci/latest/github/LemCommunity/lem/main) [![Coverage Status](https://coveralls.io/repos/github/LemCommunity/lem/badge.svg?branch=main)](https://coveralls.io/github/LemCommunity/lem?branch=main)
 
 Social media for book lovers (similar to Goodreads)
 
