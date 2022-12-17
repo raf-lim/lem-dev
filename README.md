@@ -79,3 +79,16 @@ docker-compose logs <SERVICE_NAME>
 e.g.
 docker-compose logs django
 ```
+
+## How to install packages
+We are using Poetry for installing dependencies and then generating with it standard Python requirements.txt file for Docker.
+
+You can install a Python package from PyPI by typing:
+```
+poetry add <PACKAGE_NAME>
+```
+
+Use the command below to generate the requirements file
+```
+poetry export --with production --with dev -f requirements.txt --output requirements.txt
+```
