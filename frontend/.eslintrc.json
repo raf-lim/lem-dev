@@ -22,6 +22,6 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": ["tsconfig.json"]
+    "project": ["**/tsconfig.json"]
   }
 }
