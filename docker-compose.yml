@@ -64,7 +64,7 @@ services:
     command: /start-flower.sh
 
   frontend:
-    build: 
+    build:
       context: ./frontend
       dockerfile: ./docker/Dockerfile
     container_name: lem_local_frontend
@@ -76,4 +76,3 @@ services:
       - /app/.next
     depends_on:
       - django
-    
