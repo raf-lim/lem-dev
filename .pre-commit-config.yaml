@@ -60,7 +60,7 @@ repos:
           - "prettier@2.8.1"
           - "typescript@4.9.4"
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
-ci:
-  autoupdate_schedule: weekly
-  skip: []
-  submodules: false
+# ci:
+#   autoupdate_schedule: weekly
+#   skip: []
+#   submodules: false
