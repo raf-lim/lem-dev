@@ -9,6 +9,9 @@ const nextConfig = {
     return config;
   },
   reactStrictMode: true,
+  eslint: {
+    dirs: ["."],
+  },
 };
 
 module.exports = nextConfig;

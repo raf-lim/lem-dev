@@ -33,6 +33,13 @@ repos:
       - id: prettier
         files: ^frontend/
 
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: bash -c "cd frontend && npm run lint"
+        language: node
+
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:
   autoupdate_schedule: weekly
