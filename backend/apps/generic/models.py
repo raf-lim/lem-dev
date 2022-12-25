@@ -37,7 +37,7 @@ class Like(models.Model):
         verbose_name = "Like"
         verbose_name_plural = "Likes"
 
-    def like_dislike_counter(self, content_type, object_id, like_type, user):
+    def like_dislike_counter(self, content_type, object_id, like_type):
         # Get the content type instance for the given content type
         ct = ContentType.objects.get(model=content_type)
 
