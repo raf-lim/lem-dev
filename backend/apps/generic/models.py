@@ -11,7 +11,7 @@ class Like(models.Model):
     Fields:
         user (models.ForeignKey): Foreign key to the User who made the like.
         content_type (models.ForeignKey): Foreign key to the ContentType of the liked content.
-        object_id (models.PositiveIntegerField): Primary key of the liked content.po
+        object_id (models.PositiveIntegerField): Primary key of the liked content.
         content_object (GenericForeignKey): Generic foreign key to the liked content.
     """
 
@@ -43,7 +43,7 @@ class Like(models.Model):
 
         # Get all the likes or dislikes for the given content type, object id, and user
         likes_dislikes = Like.objects.filter(
-            content_type=ct, object_id=object_id, like_type=like_type, user=user
+            content_type=ct, object_id=object_id, like_type=like_type
         )
 
         # Count the number of likes or dislikes and return the result
