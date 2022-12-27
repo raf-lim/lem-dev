@@ -37,14 +37,22 @@ class Like(models.Model):
         verbose_name = "Like"
         verbose_name_plural = "Likes"
 
-    def like_dislike_counter(self, content_type, object_id, like_type):
-        # Get the content type instance for the given content type
-        ct = ContentType.objects.get(model=content_type)
+    def likes_counter(self):
 
-        # Get all the likes or dislikes for the given content type, object id, and user
-        likes_dislikes = Like.objects.filter(
-            content_type=ct, object_id=object_id, like_type=like_type
+        # Get all the likes for the given content type and object id
+        likes = Like.objects.filter(
+            content_type=self.content_type, object_id=self.object_id, like_type="L"
         )
 
-        # Count the number of likes or dislikes and return the result
-        return likes_dislikes.count()
+        # Count the number of dislikes and return the result
+        return likes.count()
+
+    def dislikes_counter(self):
+
+        # Get all the dislikes for the given content type and object id
+        dislikes = Like.objects.filter(
+            content_type=self.content_type, object_id=self.object_id, like_type="D"
+        )
+
+        # Count the number of dislikes and return the result
+        return dislikes.count()

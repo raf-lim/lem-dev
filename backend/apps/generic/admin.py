@@ -1,3 +1,10 @@
-# from django.contrib import admin
+from django.contrib import admin
 
-# Register your models here.
+from apps.generic.models import Like
+
+
+class LikeAdmin(admin.ModelAdmin):
+    readonly_fields = ("content_object",)
+
+
+admin.site.register(Like, LikeAdmin)
