@@ -33,34 +33,35 @@ repos:
       - id: prettier
         files: ^frontend/
 
-  - repo: local
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.30.0
     hooks:
       - id: eslint
-        name: eslint
-        entry: bash -c "cd frontend && npm run lint"
-        language: node
         additional_dependencies:
-          - "@next/eslint-plugin-next@^13.1.0"
-          - "@types/node@18.11.17"
-          - "@types/react@18.0.26"
-          - "@types/react-dom@18.0.9"
-          - "@typescript-eslint/eslint-plugin@^5.47.0"
-          - "@typescript-eslint/parser@^5.47.0"
-          - "eslint@8.30.0"
-          - "eslint-config-next@13.0.7"
-          - "eslint-config-prettier@^8.5.0"
-          - "eslint-import-resolver-node@^0.3.6"
-          - "eslint-import-resolver-typescript@^3.5.2"
-          - "eslint-plugin-import@^2.26.0"
-          - "eslint-plugin-jsx-a11y@^6.6.1"
-          - "eslint-plugin-next@^0.0.0"
-          - "eslint-plugin-react@^7.31.11"
-          - "eslint-plugin-react-hooks@^4.6.0"
-          - "next@13.0.7"
-          - "prettier@2.8.1"
-          - "typescript@4.9.4"
+          - eslint
+          - eslint-config-next
+          - eslint-plugin-react
+          - eslint-plugin-react-hooks
+          - eslint-plugin-next
+          - eslint-plugin-import
+          - eslint-plugin-jsx-a11y
+          - eslint-import-resolver-node
+          - eslint-import-resolver-typescript
+
+          - "@types/node"
+          - "@types/react"
+          - "@types/react-dom"
+
+          - eslint-config-prettier
+          - prettier
+
+          - "@typescript-eslint/eslint-plugin"
+          - "@typescript-eslint/parser"
+        files: ^frontend\/.*[jt]sx?$
+        types: [file]
+
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
-# ci:
-#   autoupdate_schedule: weekly
-#   skip: []
-#   submodules: false
+ci:
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false
