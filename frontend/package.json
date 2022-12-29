@@ -10,8 +10,8 @@
     "prettier": "npx prettier . --write",
     "lint": "npx prettier . --write && npx eslint .",
     "jest": "jest",
-    "cy": "cypress open",
-    "cy:ci": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test start https-get://localhost:3030 cypress open"
+    "cypress:gui": "npx cypress open",
+    "cypress": "npx cypress run"
   },
   "dependencies": {
     "@next/font": "13.0.7",
