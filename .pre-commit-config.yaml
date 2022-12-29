@@ -33,33 +33,6 @@ repos:
       - id: prettier
         files: ^frontend/
 
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.30.0
-    hooks:
-      - id: eslint
-        additional_dependencies:
-          - eslint
-          - eslint-config-next
-          - eslint-plugin-react
-          - eslint-plugin-react-hooks
-          - eslint-plugin-next
-          - eslint-plugin-import
-          - eslint-plugin-jsx-a11y
-          - eslint-import-resolver-node
-          - eslint-import-resolver-typescript
-
-          - "@types/node"
-          - "@types/react"
-          - "@types/react-dom"
-
-          - eslint-config-prettier
-          - prettier
-
-          - "@typescript-eslint/eslint-plugin"
-          - "@typescript-eslint/parser"
-        files: ^frontend\/.*[jt]sx?$
-        types: [file]
-
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:
   autoupdate_schedule: weekly
