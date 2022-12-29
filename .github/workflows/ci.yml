@@ -49,7 +49,7 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     container:
-      image: cypress/browsers:node12.16.1-chrome80-ff73
+      image: cypress/browsers
       options: --user 1001
     steps:
       - name: Checkout
