@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "npx prettier --write . && npx eslint ."
+    "eslint": "npx eslint .",
+    "prettier": "npx prettier . --write",
+    "lint": "npx prettier . --write && npx eslint .",
+    "cy": "cypress open",
+    "cy:ci": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test start https-get://localhost:3030 cypress open"
   },
   "dependencies": {
     "@next/font": "13.0.7",
@@ -33,5 +37,10 @@
     "react-query": "^3.39.2",
     "typescript": "4.9.4",
     "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "cypress": "^12.2.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "start-server-and-test": "^1.15.2"
   }
 }
