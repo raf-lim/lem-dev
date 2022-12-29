@@ -9,6 +9,7 @@
     "eslint": "npx eslint .",
     "prettier": "npx prettier . --write",
     "lint": "npx prettier . --write && npx eslint .",
+    "jest": "jest",
     "cy": "cypress open",
     "cy:ci": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test start https-get://localhost:3030 cypress open"
   },
@@ -39,8 +40,14 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@jest/globals": "^29.3.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
     "cypress": "^12.2.0",
     "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-jest": "^27.1.7",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
     "start-server-and-test": "^1.15.2"
   }
 }

@@ -35,9 +35,11 @@ jobs:
         run: docker-compose run django coverage lcov
       - name: Run linting on Frontend
         run: docker-compose run frontend npm run lint
+      - name: Run jest tests on Frontend
+        run: docker-compose run frontend npm run jest
       - name: Tear down the Stack
         run:  docker-compose down
-      - name: Coveralls GitHub Action
+      - name: Coveralls GitHub Action Backend
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: "./backend/coverage.lcov"

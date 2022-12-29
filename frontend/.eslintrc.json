@@ -24,7 +24,7 @@
   ],
   "parser": "@typescript-eslint/parser",
   "root": true,
-  "plugins": ["jsx-a11y", "@typescript-eslint"],
+  "plugins": ["jsx-a11y", "@typescript-eslint", "jest"],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
@@ -35,6 +35,11 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-namespace": "off"
+    "@typescript-eslint/no-namespace": "off",
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
   }
 }
