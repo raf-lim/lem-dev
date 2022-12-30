@@ -10,7 +10,7 @@ services:
       dockerfile: ./docker/Dockerfile
     image: lem_local_django
     container_name: lem_local_django
-    platform: linux/x86_64
+    # platform: linux/x86_64
     depends_on:
       - postgres
       - redis
