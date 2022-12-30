@@ -55,6 +55,7 @@ class NewsViewSet(viewsets.ModelViewSet):
     def comment(self, request, pk=None):
         """Create comment to news instance."""
         # news = self.get_object()
+        # request.POST._mutable = True
         data = request.data
         data["object_id"] = pk
         data["content_type"] = ContentType.objects.get_for_id(id=pk).id
@@ -75,6 +76,7 @@ class NewsViewSet(viewsets.ModelViewSet):
     def tag(self, request, pk=None):
         """Create tag to news instance."""
         # news = self.get_object()
+        # request.POST._mutable = True
         data = request.data
         data["object_id"] = pk
         data["content_type"] = ContentType.objects.get_for_id(id=pk).id
