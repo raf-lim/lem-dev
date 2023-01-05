@@ -1,4 +1,5 @@
 # Project specific files
+media/
 **/models_notes.py
 
 # Byte-compiled / optimized / DLL files
