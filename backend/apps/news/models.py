@@ -38,16 +38,16 @@ class PolymorphicRelationship(models.Model):
     content_object = GenericForeignKey("content_type", "object_id")
 
 
-def directory_path(instance, filename):
-    """Returns file path including media type, app name, content type name,
+def directory_path(instance, filename: str) -> str:
+    """Returns file path including app name, media type, content type name,
     and file object id.
 
     Args:
-        instance (_class instance_): File or Image class instance
-        filename (_str_): filename
+        instance (class instance): File or Image class object
+        filename (str): filename
 
     Returns:
-        _str_: image's or file's path string
+        str: image's or file's path string
     """
     dir_path = join(
         instance.content_type.app_label,
