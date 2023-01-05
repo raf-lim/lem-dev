@@ -2,15 +2,17 @@ from os.path import join
 
 from django.conf import settings
 
-# from django.contrib.auth.models import User
+# from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
+# from apps.generic.models import Like
 
-class Timestamped(models.Model):
-    """Abstract model to inherit timestapms for creation datetime
-    and edit datetime. User gets also inherited."""
+
+class UserActionTimestamp(models.Model):
+    """Abstract model to inherit datetime for obcject creation and/or
+    edit by user as well as inherit foreign key to User object."""
 
     class Meta:
         abstract = True
@@ -20,6 +22,8 @@ class Timestamped(models.Model):
     edited = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # option
+    # user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
 
 class PolymorphicRelationship(models.Model):
@@ -53,7 +57,7 @@ def directory_path(instance, filename):
     return join(dir_path, filename)
 
 
-class File(Timestamped, PolymorphicRelationship):
+class File(UserActionTimestamp, PolymorphicRelationship):
     MEDIA_TYPE = "files"
 
     file = models.FileField(upload_to=directory_path, blank=True, null=True)
@@ -62,7 +66,7 @@ class File(Timestamped, PolymorphicRelationship):
         return self.file.url
 
 
-class Image(Timestamped, PolymorphicRelationship):
+class Image(UserActionTimestamp, PolymorphicRelationship):
     MEDIA_TYPE = "images"
 
     image = models.ImageField(upload_to=directory_path, blank=True, null=True)
@@ -72,7 +76,7 @@ class Image(Timestamped, PolymorphicRelationship):
         return self.image.url
 
 
-class Tag(Timestamped, PolymorphicRelationship):
+class Tag(UserActionTimestamp, PolymorphicRelationship):
     class Meta:
         ordering = ["tag"]
 
@@ -82,21 +86,21 @@ class Tag(Timestamped, PolymorphicRelationship):
         return self.tag
 
 
-class Highlight(Timestamped, PolymorphicRelationship):
-    highlight = models.BooleanField(default=False)
+class Highlight(UserActionTimestamp, PolymorphicRelationship):
+    highlight = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.highlight)
 
 
-class Like(Timestamped, PolymorphicRelationship):
-    like = models.BooleanField(default=False)
+class Like(UserActionTimestamp, PolymorphicRelationship):
+    like = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.like)
 
 
-class Comment(Timestamped, PolymorphicRelationship):
+class Comment(UserActionTimestamp, PolymorphicRelationship):
     body = models.TextField(null=False, blank=False)
 
     def __str__(self) -> str:
@@ -117,7 +121,7 @@ class Comment(Timestamped, PolymorphicRelationship):
 #         return self.all_objects().filter(status='inactive')
 
 
-class News(Timestamped):
+class News(UserActionTimestamp):
     class Meta:
         verbose_name_plural = "News"
 
@@ -156,3 +160,4 @@ class News(Timestamped):
     @property
     def tags_count(self):
         return self.tags.all().count()
+
