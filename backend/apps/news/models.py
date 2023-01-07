@@ -6,6 +6,11 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django_extensions.db.fields import (
+    AutoSlugField,
+    CreationDateTimeField,
+    ModificationDateTimeField,
+)
 
 # from apps.generic.models import Like
 
@@ -16,10 +21,12 @@ class UserActionTimestamp(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ("-created",)
+        ordering = ("-created_at",)
 
-    created = models.DateTimeField(auto_now_add=True)
-    edited = models.DateTimeField(auto_now=True)
+    created_at = CreationDateTimeField()
+    modified_at = ModificationDateTimeField()
+    # created = models.DateTimeField(auto_now_add=True)
+    # edited = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # option
@@ -76,15 +83,15 @@ class Image(UserActionTimestamp, PolymorphicRelationship):
         return self.image.url
 
 
-# TODO replace SlugField
 class Tag(UserActionTimestamp, PolymorphicRelationship):
     class Meta:
-        ordering = ["tag"]
+        ordering = ["name"]
 
-    tag = models.SlugField(max_length=50)  # autocomplete?
+    name = models.CharField(unique=True, max_length=50)  # autocomplete?
+    slug = AutoSlugField(populate_from="name")
 
     def __str__(self) -> str:
-        return self.tag
+        return self.name
 
 
 class Highlight(UserActionTimestamp, PolymorphicRelationship):

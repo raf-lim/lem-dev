@@ -7,8 +7,9 @@ from .models import Comment, File, Highlight, Image, Like, News, Tag
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ["pk", "tag", "content_object", "user"]
-    search_fields = ["tag"]
+    list_display = ["pk", "name", "content_object", "user"]
+    search_fields = ["name"]
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(File)
