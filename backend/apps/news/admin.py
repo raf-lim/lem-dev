@@ -7,9 +7,9 @@ from .models import Comment, File, Highlight, Image, Like, News, Tag
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ["pk", "name", "content_object", "user"]
+    list_display = ["pk", "name", "slug", "content_object", "user"]
     search_fields = ["name"]
-    prepopulated_fields = {"slug": ("name",)}
+    # prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(File)
@@ -19,7 +19,7 @@ class FileAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ["pk", "image", "content_object", "user"]
+    list_display = ["pk", "image", "alt_text", "content_object", "user"]
 
 
 @admin.register(Comment)
@@ -29,7 +29,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ["pk", "title", "is_published", "user"]
+    list_display = ["pk", "title", "slug", "is_published", "user"]
 
 
 @admin.register(Like)

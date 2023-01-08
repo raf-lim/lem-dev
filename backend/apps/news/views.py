@@ -41,6 +41,9 @@ class CommentViewSet(viewsets.ModelViewSet):
 class NewsViewSet(viewsets.ModelViewSet):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
+    # to use slug instead of id in the url:
+    # lookup_field = "get_absolute_url"
+
     # TODO remove, temporary
     permission_classes = [AllowAny]
 

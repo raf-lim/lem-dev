@@ -1,11 +1,11 @@
 from os.path import join
 
 from django.conf import settings
-
-# from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+
+# from django.urls import reverse
 from django_extensions.db.fields import (
     AutoSlugField,
     CreationDateTimeField,
@@ -68,6 +68,7 @@ class File(UserActionTimestamp, PolymorphicRelationship):
     MEDIA_TYPE = "files"
 
     file = models.FileField(upload_to=directory_path, blank=True, null=True)
+    # TODO allow only one file?
 
     def __str__(self) -> str:
         return self.file.url
@@ -78,6 +79,7 @@ class Image(UserActionTimestamp, PolymorphicRelationship):
 
     image = models.ImageField(upload_to=directory_path, blank=True, null=True)
     alt_text = models.CharField(max_length=255)
+    # TODO allow only one picture?
 
     def __str__(self) -> str:
         return self.image.url
@@ -88,6 +90,7 @@ class Tag(UserActionTimestamp, PolymorphicRelationship):
         ordering = ["name"]
 
     name = models.CharField(unique=True, max_length=50)  # autocomplete?
+    # TODO validate input for name?
     slug = AutoSlugField(populate_from="name")
 
     def __str__(self) -> str:
@@ -111,6 +114,7 @@ class Like(UserActionTimestamp, PolymorphicRelationship):
 
 class Comment(UserActionTimestamp, PolymorphicRelationship):
     body = models.TextField(null=False, blank=False)
+    # TODO validate input for body?
 
     # TODO consider GenericRelation for related likes or other reactions
     # and activate when import available.
@@ -140,8 +144,10 @@ class News(UserActionTimestamp):
         verbose_name_plural = "News"
 
     title = models.CharField(null=False, blank=False, max_length=200)
-    # TODO wysiwyg, html issue?
+    # TODO title validator?
+    slug = AutoSlugField(populate_from="title")
     body = models.TextField(null=False, blank=False)
+    # TODO validator, html safety issue?
     is_published = models.BooleanField(default=False)
 
     # TODO consider the use these fields:
@@ -161,7 +167,7 @@ class News(UserActionTimestamp):
     # objects = NewsManager()
 
     def __str__(self) -> str:
-        return f"{self.id}-{self.title}"
+        return self.title
 
     # TODO consider if comments shall be serialized with the news
     # Can be used to include comments to news response if needed.
@@ -173,3 +179,8 @@ class News(UserActionTimestamp):
     @property
     def tags_list(self):
         return self.tags.all()
+
+    def get_absolute_url(self):
+        # return reverse("news_detail", args=[self.slug])
+        # return reverse("news_detail", kwargs={"pk": self.pk, "slug": self.slug})
+        return f"{self.id}-{self.slug}"
