@@ -4,8 +4,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-
-# from django.urls import reverse
+from django.urls import reverse
 from django_extensions.db.fields import (
     AutoSlugField,
     CreationDateTimeField,
@@ -181,6 +180,6 @@ class News(UserActionTimestamp):
         return self.tags.all()
 
     def get_absolute_url(self):
-        # return reverse("news_detail", args=[self.slug])
+        return reverse("news-detail", args=[self.slug])
         # return reverse("news_detail", kwargs={"pk": self.pk, "slug": self.slug})
-        return f"{self.id}-{self.slug}"
+        # return f"{self.id}-{self.slug}"

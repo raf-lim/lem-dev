@@ -42,15 +42,15 @@ class NewsViewSet(viewsets.ModelViewSet):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     # to use slug instead of id in the url:
-    # lookup_field = "get_absolute_url"
+    lookup_field = "slug"
 
     # TODO remove, temporary
     permission_classes = [AllowAny]
 
     @action(detail=True, methods=["GET"])
-    def comments(self, request, pk=None):
+    def comments(self, request, slug=None):
         """List comments related to the news."""
-        comments = Comment.objects.filter(news__id=pk)
+        comments = Comment.objects.filter(news__slug=slug)
         serializer = CommentSerializer(comments, many=True)
         return Response({"comments": serializer.data}, status=200)
 

@@ -48,7 +48,7 @@ class NewsSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("news",)
         # to use slug instead of id in the url:
-        # extra_kwargs = {"url": {"lookup_field": "get_absolute_url"}}
+        # extra_kwargs = {"url": {"lookup_field": "slug"}}
 
     url = serializers.CharField(source="get_absolute_url", read_only=True)
 
