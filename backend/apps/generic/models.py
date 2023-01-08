@@ -4,9 +4,27 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 
-class Like(models.Model):
+class ReactionQuerySet(models.QuerySet):
     """
-    Model representing a "like" by a user on a piece of content.
+    A queryset for Reaction models.
+    """
+
+    def likes(self):
+        """
+        Return a queryset of reactions that are like type.
+        """
+        return self.filter(reaction_type="L")
+
+    def dislikes(self):
+        """
+        Return a queryset of reactions that are dislike type.
+        """
+        return self.filter(reaction_type="D")
+
+
+class Reaction(models.Model):
+    """
+    Model representing a reaction by a user on a piece of content.
 
     Fields:
         user (models.ForeignKey): Foreign key to the User who made the like.
@@ -16,8 +34,8 @@ class Like(models.Model):
     """
 
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     content_object = GenericForeignKey("content_type", "object_id")
 
     LIKE = "L"
@@ -26,7 +44,8 @@ class Like(models.Model):
         (LIKE, "Like"),
         (DISLIKE, "Dislike"),
     ]
-    like_type = models.CharField(max_length=1, choices=TYPE_CHOICES)
+    reaction_type = models.CharField(max_length=1, choices=TYPE_CHOICES)
+    objects = ReactionQuerySet.as_manager()
 
     class Meta:
         """
@@ -34,25 +53,8 @@ class Like(models.Model):
         """
 
         ordering = ["user"]
-        verbose_name = "Like"
-        verbose_name_plural = "Likes"
+        verbose_name = "Reaction"
+        verbose_name_plural = "Reactions"
 
-    def likes_counter(self):
-
-        # Get all the likes for the given content type and object id
-        likes = Like.objects.filter(
-            content_type=self.content_type, object_id=self.object_id, like_type="L"
-        )
-
-        # Count the number of dislikes and return the result
-        return likes.count()
-
-    def dislikes_counter(self):
-
-        # Get all the dislikes for the given content type and object id
-        dislikes = Like.objects.filter(
-            content_type=self.content_type, object_id=self.object_id, like_type="D"
-        )
-
-        # Count the number of dislikes and return the result
-        return dislikes.count()
+    def __str__(self):
+        return f"{self.reaction_type} {self.content_object}"
