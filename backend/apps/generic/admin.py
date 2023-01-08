@@ -1,10 +1,8 @@
 from django.contrib import admin
 
-from apps.generic.models import Like
+from apps.generic.models import Reaction
 
 
-class LikeAdmin(admin.ModelAdmin):
+@admin.register(Reaction)
+class ReactionAdmin(admin.ModelAdmin):
     readonly_fields = ("content_object",)
-
-
-admin.site.register(Like, LikeAdmin)
