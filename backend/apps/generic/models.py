@@ -3,23 +3,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-
-class ReactionQuerySet(models.QuerySet):
-    """
-    A queryset for Reaction models.
-    """
-
-    def likes(self):
-        """
-        Return a queryset of reactions that are like type.
-        """
-        return self.filter(reaction_type="L")
-
-    def dislikes(self):
-        """
-        Return a queryset of reactions that are dislike type.
-        """
-        return self.filter(reaction_type="D")
+from apps.generic.managers import ReactionManager
 
 
 class Reaction(models.Model):
@@ -45,7 +29,7 @@ class Reaction(models.Model):
         (DISLIKE, "Dislike"),
     ]
     reaction_type = models.CharField(max_length=1, choices=TYPE_CHOICES)
-    objects = ReactionQuerySet.as_manager()
+    objects = ReactionManager()
 
     class Meta:
         """
