@@ -63,6 +63,8 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "corsheaders",
     "drf_spectacular",
+    "martor",
+    "django_extensions",
 ]
 
 
