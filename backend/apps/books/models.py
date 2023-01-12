@@ -2,6 +2,12 @@ from django.core.validators import RegexValidator
 from django.db import models
 
 
+class Genre(models.Model):
+    """Genre database model"""
+
+    name = models.CharField(max_length=255)
+
+
 class Book(models.Model):
     """Book database model"""
 
@@ -49,8 +55,7 @@ class Book(models.Model):
     dimensions = models.ForeignKey("BookSize", on_delete=models.CASCADE)
     catalog_number = models.IntegerField()
     ISBN_id = models.IntegerField()
-    review = models.ForeignKey("Review", on_delete=models.CASCADE)
-    genre = models.ForeignKey("Genre", on_delete=models.CASCADE)
+    genre = models.ManyToManyField(Genre)
 
 
 class BookLanguage(models.Model):
@@ -71,12 +76,6 @@ class BookSize(models.Model):
 
     x_size = models.IntegerField(default=0)
     y_size = models.IntegerField(default=0)
-
-
-class Genre(models.Model):
-    """Genre database model"""
-
-    name = models.CharField(max_length=255)
 
 
 class Review(models.Model):
