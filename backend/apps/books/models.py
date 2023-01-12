@@ -5,7 +5,24 @@ from django.db import models
 class Genre(models.Model):
     """Genre database model"""
 
-    name = models.CharField(max_length=255)
+    GENRES = (
+        ("LF", "Literary Fiction"),
+        ("My", "Mystery"),
+        ("Th", "Thriller"),
+        ("Ho", "Horror"),
+        ("Hi", "Historical"),
+        ("Ro", "Romance"),
+        ("We", "Western"),
+        ("Bi", "Bildungsroman"),
+        ("SpF", "Speculative Fiction"),
+        ("SF", "Science Fiction"),
+        ("Fa", "Fantasy"),
+        ("Dy", "Dystopian"),
+        ("MR", "Magical Realism"),
+        ("RL", "Realist Literature"),
+    )
+
+    name = models.CharField(max_length=25, choices=GENRES)
 
 
 class Book(models.Model):
