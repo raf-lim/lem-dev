@@ -29,7 +29,6 @@ class Reaction(models.Model):
         (DISLIKE, "Dislike"),
     ]
     reaction_type = models.CharField(max_length=1, choices=TYPE_CHOICES)
-    objects = ReactionManager()
 
     class Meta:
         """
@@ -39,6 +38,8 @@ class Reaction(models.Model):
         ordering = ["user"]
         verbose_name = "Reaction"
         verbose_name_plural = "Reactions"
+
+    objects = ReactionManager()
 
     def __str__(self):
         return f"{self.reaction_type} {self.content_object}"

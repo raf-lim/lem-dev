@@ -22,20 +22,15 @@ class ReactionFactory(DjangoModelFactory):
         exclude = ["content_object"]
         abstract = True
 
+    user = SubFactory(UserFactory)
     object_id = SelfAttribute("content_object.id")
     content_type = LazyAttribute(
         lambda o: ContentType.objects.get_for_model(o.content_object)
     )
+    reaction_type = Faker("random_choices", elements=Reaction.TYPE_CHOICES)
 
 
-class TaggedUserFactory(ReactionFactory):
-    class Meta:
-        model = Reaction
-
-    user = SubFactory(UserFactory)
-
-
-class TaggedGroupFactory(ReactionFactory):
+class ReactionGroupFactory(ReactionFactory):
     class Meta:
         model = Reaction
 
