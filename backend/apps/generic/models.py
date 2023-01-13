@@ -18,7 +18,7 @@ class Reaction(models.Model):
     """
 
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
+    object_id = models.PositiveBigIntegerField()
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     content_object = GenericForeignKey("content_type", "object_id")
 
