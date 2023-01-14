@@ -1,6 +1,6 @@
 """News app models"""
 
-from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import (
@@ -18,6 +18,7 @@ from django_extensions.db.fields import (
     ModificationDateTimeField,
 )
 
+# Awaiting generic models
 # from apps.generic.models import Like, File, Picture
 
 
@@ -33,7 +34,9 @@ class UserActionTimestampedMixin(models.Model):
     modified = ModificationDateTimeField()
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("user")
+        get_user_model(),
+        on_delete=models.CASCADE,
+        verbose_name=_("user"),
     )
 
 
@@ -66,9 +69,9 @@ class Tag(UserActionTimestampedMixin, PolymorphicRelationship):
     """Tag model"""
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["tag"]
 
-    name = models.CharField(
+    tag = models.CharField(
         unique=True,
         max_length=50,
         validators=[
@@ -81,7 +84,7 @@ class Tag(UserActionTimestampedMixin, PolymorphicRelationship):
     slug = AutoSlugField(populate_from="name")
 
     def __str__(self) -> str:
-        return self.name
+        return self.tag
 
 
 class Comment(UserActionTimestampedMixin, PolymorphicRelationship):
