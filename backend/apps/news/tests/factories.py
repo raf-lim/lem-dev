@@ -1,39 +1,25 @@
-from datetime import datetime
-
 import factory
 from django.contrib.contenttypes.models import ContentType
-from django.utils.text import slugify
-from factory import fuzzy
-from pytz import UTC
+from faker import Faker
 
-from apps.news.models import Tag
+from apps.news.models import Comment, Highlight, Tag
 from apps.users.tests.factories import UserFactory
 
+fake = Faker()
 
-class NewsFactory(factory.django.DjangoModelFactory):
+
+class UserActionTimestampedMixinFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = "news.News"
+        abstract = True
 
+    created = fake.date_time()
+    modified = fake.date_time_between_dates(datetime_start=created)
     user = factory.SubFactory(UserFactory)
 
-    created = factory.LazyAttribute(
-        lambda x: fuzzy.FuzzyDateTime(start_dt=datetime(2010, 1, 1, tzinfo=UTC))
-    )
-    modified = factory.LazyAttribute(
-        lambda x: fuzzy.FuzzyDateTime(start_dt=datetime(2012, 1, 1, tzinfo=UTC))
-    )
-    title = factory.LazyAttribute(lambda x: fuzzy.FuzzyText().fuzz())
-    slug = factory.LazyAttribute(lambda x: slugify(x.title))
-    body = factory.LazyAttribute(lambda x: fuzzy.FuzzyText(length=200).fuzz())
-    is_published = False
-    allow_highlights = True
-    allow_likes = True
-    allow_comments = True
 
-
-class PolymorficRelationshipFactory(factory.django.DjangoModelFactory):
+class PolymorphicRelationshipFactory(factory.django.DjangoModelFactory):
     class Meta:
-        exclude = "content_objects"
+        exclude = ["content_objects"]
         abstract = True
 
     object_id = factory.SelfAttribute("content_object.id")
@@ -42,8 +28,55 @@ class PolymorficRelationshipFactory(factory.django.DjangoModelFactory):
     )
 
 
-class TaggedNewsFactory(PolymorficRelationshipFactory):
+class NewsFactory(UserActionTimestampedMixinFactory):
+    class Meta:
+        model = "news.News"
+
+    title = fake.text(max_nb_chars=50)
+    slug = fake.slug(title)
+    body = fake.text(max_nb_chars=160)
+    is_published = False
+    allow_highlights = True
+    allow_likes = True
+    allow_comments = True
+
+
+class TaggedNewsFactory(
+    UserActionTimestampedMixinFactory, PolymorphicRelationshipFactory
+):
     class Meta:
         model = Tag
 
-    object_content = factory.SubFactory(NewsFactory)
+    tag = fake.word()
+    slug = fake.slug(tag)
+    content_object = factory.SubFactory(NewsFactory)
+
+
+class HighlightedNewsFactory(
+    UserActionTimestampedMixinFactory, PolymorphicRelationshipFactory
+):
+    class Meta:
+        model = Highlight
+
+    highlight = True
+    content_object = factory.SubFactory(NewsFactory)
+
+
+class CommentedNewsFactory(
+    UserActionTimestampedMixinFactory, PolymorphicRelationshipFactory
+):
+    class Meta:
+        model = Comment
+
+    body = fake.text()
+    content_object = factory.SubFactory(NewsFactory)
+
+
+class CommentedCommentFactory(
+    UserActionTimestampedMixinFactory, PolymorphicRelationshipFactory
+):
+    class Meta:
+        model = Comment
+
+    body = fake.text()
+    content_object = factory.SubFactory(CommentedNewsFactory)

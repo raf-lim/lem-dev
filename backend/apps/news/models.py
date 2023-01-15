@@ -81,7 +81,7 @@ class Tag(UserActionTimestampedMixin, PolymorphicRelationship):
         ],
         help_text=_("Must be unique, only alphanumeric allowed"),
     )
-    slug = AutoSlugField(populate_from="name")
+    slug = AutoSlugField(populate_from="tag")
 
     def __str__(self) -> str:
         return self.tag
