@@ -27,7 +27,6 @@ markdown2 = "^2.4.6"
 pillow = "^9.3.0"
 mdgen = "^0.1.10"
 martor = "^1.6.15"
-pytest-factoryboy = "^2.5.1"
 
 [tool.poetry.group.production]
 optional = true
