@@ -1,4 +1,5 @@
 import pytest
+
 from apps.news.models import Comment, News
 
 pytestmark = pytest.mark.django_db

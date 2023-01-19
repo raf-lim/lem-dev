@@ -1,8 +1,9 @@
 import factory
-from apps.news.models import Comment, Highlight, Tag
-from apps.users.tests.factories import UserFactory
 from django.contrib.contenttypes.models import ContentType
 from faker import Faker
+
+from apps.news.models import Comment, Highlight, Tag
+from apps.users.tests.factories import UserFactory
 
 fake = Faker()
 
