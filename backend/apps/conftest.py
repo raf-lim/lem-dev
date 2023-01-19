@@ -1,4 +1,5 @@
 import pytest
+
 from apps.news.models import Comment, Highlight, News, Tag
 from apps.news.tests.factories import (
     CommentedCommentFactory,
