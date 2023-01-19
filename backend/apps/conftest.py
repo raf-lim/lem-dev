@@ -1,6 +1,5 @@
 import pytest
-from pytest_factoryboy import register
-
+from apps.news.models import Comment, Highlight, News, Tag
 from apps.news.tests.factories import (
     CommentedCommentFactory,
     CommentedNewsFactory,
@@ -8,6 +7,7 @@ from apps.news.tests.factories import (
     NewsFactory,
     TaggedNewsFactory,
 )
+from apps.users.models import User
 from apps.users.tests.factories import UserFactory
 
 
@@ -16,9 +16,31 @@ def _media_storage(settings, tmpdir):
     settings.MEDIA_ROOT = tmpdir.strpath
 
 
-register(UserFactory)  # registers fixture as user_factory
-register(NewsFactory)  # registers fixture as news_factory
-register(TaggedNewsFactory)
-register(HighlightedNewsFactory)
-register(CommentedNewsFactory)
-register(CommentedCommentFactory)
+@pytest.fixture()
+def user(db) -> User:
+    return UserFactory()
+
+
+@pytest.fixture()
+def news() -> News:
+    return NewsFactory
+
+
+@pytest.fixture()
+def highlighted_news() -> Highlight:
+    return HighlightedNewsFactory
+
+
+@pytest.fixture()
+def tag() -> Tag:
+    return TaggedNewsFactory
+
+
+@pytest.fixture()
+def commented_news() -> Comment:
+    return CommentedNewsFactory
+
+
+@pytest.fixture()
+def commented_comment() -> Comment:
+    return CommentedCommentFactory

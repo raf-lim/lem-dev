@@ -1,13 +1,12 @@
 import pytest
-
 from apps.news.models import Comment, News
 
 pytestmark = pytest.mark.django_db
 
 
-def test_new_news_build(news_factory):
+def test_new_news_build(news):
     count_before = News.objects.all().count()
-    news = news_factory.build()
+    news = news.build()
     count_after = News.objects.all().count()
     assert count_after == count_before
     assert news.title
@@ -15,9 +14,9 @@ def test_new_news_build(news_factory):
     assert news.user
 
 
-def test_new_news_create(news_factory):
+def test_new_news_create(news):
     count_before = News.objects.all().count()
-    news = news_factory.create()
+    news = news.create()
     count_after = News.objects.all().count()
     assert count_after == count_before + 1
     assert news.title
@@ -25,9 +24,9 @@ def test_new_news_create(news_factory):
     assert news.user
 
 
-def test_create_tag_on_news(tagged_news_factory):
+def test_create_tag_on_news(tag):
     count_before = News.objects.all().count()
-    tagged_news = tagged_news_factory.create()
+    tagged_news = tag.create()
     count_after = News.objects.all().count()
     print(tagged_news.created)
     print(tagged_news.modified)
@@ -44,16 +43,16 @@ def test_create_tag_on_news(tagged_news_factory):
     assert count_after == count_before + 1
 
 
-def test_create_highlight_on_news(highlighted_news_factory):
-    highlighted_news = highlighted_news_factory.create()
+def test_create_highlight_on_news(highlighted_news):
+    highlighted_news = highlighted_news.create()
     assert highlighted_news.content_type.model == "news"
     assert highlighted_news.object_id is not None
     assert highlighted_news.object_id == highlighted_news.content_object.id
 
 
-def test_create_comment_on_news(commented_news_factory):
+def test_create_comment_on_news(commented_news):
     count_before = Comment.objects.all().count()
-    commented_news = commented_news_factory.create()
+    commented_news = commented_news.create()
     count_after = Comment.objects.all().count()
     assert commented_news.content_type.model == "news"
     assert commented_news.object_id is not None
@@ -61,9 +60,9 @@ def test_create_comment_on_news(commented_news_factory):
     assert count_after == count_before + 1
 
 
-def test_create_comment_on_comment(commented_comment_factory):
+def test_create_comment_on_comment(commented_comment):
     count_before = Comment.objects.all().count()
-    commented_comment = commented_comment_factory.create()
+    commented_comment = commented_comment.create()
     count_after = Comment.objects.all().count()
     assert commented_comment.content_type.model == "comment"
     assert commented_comment.object_id is not None
