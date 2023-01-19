@@ -1,11 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.contrib.contenttypes.models import ContentType
-from factory import LazyAttribute, SelfAttribute, SubFactory
+from factory import LazyAttribute, LazyFunction, SelfAttribute, SubFactory
 from factory.django import DjangoModelFactory
 from faker import Faker
 
 from apps.generic.models import Reaction
+
+faker = Faker()
 
 
 class UserFactory(DjangoModelFactory):
@@ -13,14 +15,14 @@ class UserFactory(DjangoModelFactory):
         model = get_user_model()
         django_get_or_create = ["username"]
 
-    username = Faker("user_name")
-    email = Faker("email")
-    first_name = Faker("first_name")
-    last_name = Faker("last_name")
+    username = LazyFunction(lambda: faker.user_name())
+    email = LazyFunction(lambda: faker.email())
+    first_name = LazyFunction(lambda: faker.first_name())
+    last_name = LazyFunction(lambda: faker.last_name())
 
 
 class GroupFactory(DjangoModelFactory):
-    name = "group"
+    name = LazyFunction(lambda: faker.name())
 
     class Meta:
         model = Group
@@ -31,7 +33,9 @@ class ReactionFactory(DjangoModelFactory):
     content_type = LazyAttribute(
         lambda o: ContentType.objects.get_for_model(o.content_object)
     )
-    reaction_type = Faker("random_choices", elements=Reaction.TYPE_CHOICES)
+    reaction_type = LazyFunction(
+        lambda: faker.random_choices(elements=Reaction.TYPE_CHOICES)
+    )
 
     class Meta:
         exclude = ["content_object"]
