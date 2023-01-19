@@ -24,9 +24,9 @@ def test_new_news_create(news):
     assert news.user
 
 
-def test_create_tag_on_news(tag):
+def test_create_tag_on_news(tagged_news):
     count_before = News.objects.all().count()
-    tagged_news = tag.create()
+    tagged_news = tagged_news.create()
     count_after = News.objects.all().count()
     print(tagged_news.created)
     print(tagged_news.modified)

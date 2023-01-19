@@ -32,7 +32,7 @@ def highlighted_news() -> Highlight:
 
 
 @pytest.fixture()
-def tag() -> Tag:
+def tagged_news() -> Tag:
     return TaggedNewsFactory
 
 
