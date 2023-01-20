@@ -157,7 +157,7 @@ class Book(models.Model):
     dimensions = models.ForeignKey("BookSize", on_delete=models.CASCADE)
     catalog_number = models.IntegerField()
     ISBN_id = models.IntegerField()
-    genre = models.ManyToManyField(Genre)
+    genre = models.ManyToManyField(Genre, related_name="books")
 
     # author field
     author = models.ManyToManyField(Author, related_name="books")
