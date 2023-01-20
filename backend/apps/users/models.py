@@ -53,10 +53,14 @@ class Author(models.Model):
     last_name = models.CharField(max_length=150, verbose_name=_("last_name"))
     slug = AutoSlugField(populate_from=["first_name", "last_name"])
 
-    # date_of_birth =
-    # date_of_death =
+    birth_date = models.DateField(
+        null=True, blank=True, verbose_name=_("date_of_birth")
+    )
+    death_date = models.DateField(
+        null=True, blank=True, verbose_name=_("date_of_death")
+    )
 
-    # description =
+    description = models.TextField(null=True, blank=True, verbose_name=_("description"))
 
     allow_highlights = models.BooleanField(
         null=False, blank=False, default=True, verbose_name=_("allow highlights")
@@ -65,11 +69,7 @@ class Author(models.Model):
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
 
-    # TODO genres in general or only genres of self books?
-    # genres = models.ManyToManyField(Genre)
-    # or
-
-    objects = AuthorManager()
+    # objects = AuthorManager()
 
     # from apps.generic.modles import Highlight, Image
     # images = GenericRelation(Image, related_query_name="authors")
