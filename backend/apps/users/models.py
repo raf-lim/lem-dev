@@ -20,7 +20,11 @@ class Author(models.Model):
         verbose_name = _("author")
         verbose_name_plural = _("authors")
 
-    # TODO get it done.
+    first_name = models.CharField(max_length=150, verbose_name=_("first_name"))
+    last_name = models.CharField(max_length=150, verbose_name=_("last_name"))
+
+    created = CreationDateTimeField()
+    modified = ModificationDateTimeField()
 
     def __str__(self) -> str:
         return self.full_name
