@@ -1,15 +1,16 @@
 from django.core.validators import RegexValidator
 from django.db import models
-from django.db.models import Avg
-from django.db.models.query import QuerySet
-
-# from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import (
     AutoSlugField,
     CreationDateTimeField,
     ModificationDateTimeField,
 )
+
+# from django.urls import reverse
+# from django.db.models import Avg
+# from django.db.models.query import QuerySet
+
 
 # TODO in progress
 # temporary here, move to books/models if available?
@@ -144,7 +145,6 @@ class Book(models.Model):
             ),
         ],
     )
-    # author field
     year_of_publication = models.IntegerField()
     publisher = models.ForeignKey("BookPublisher", on_delete=models.CASCADE)
     issue_number = models.IntegerField(default=1)
@@ -158,6 +158,9 @@ class Book(models.Model):
     catalog_number = models.IntegerField()
     ISBN_id = models.IntegerField()
     genre = models.ManyToManyField(Genre)
+
+    # author field
+    author = models.ManyToManyField(Author, related_name="books")
 
 
 class BookLanguage(models.Model):
