@@ -13,6 +13,7 @@ class User(AbstractUser):
 
 
 # temporary here, move to books/models if available?
+# TODO in progress
 class Author(models.Model):
     """Model for books' authors."""
 
