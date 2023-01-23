@@ -1,7 +1,7 @@
 import pytest
 
 from apps.generic.models import Reaction
-from apps.generic.tests.factories import UserFactory
+from apps.generic.tests.factories import ReactionUserFactory
 
 
 @pytest.mark.django_db()
@@ -15,11 +15,10 @@ class TestReactionModel:
 
     @pytest.fixture()
     def user_factory(self):
-        return UserFactory(username="test1")
+        return ReactionUserFactory()
 
     def test_reaction_type(self, user_factory):
-        print(user_factory)
-        assert user_factory.username == "test"
+        assert user_factory.content_object == "test"
 
 
 def get_field(model, field):
