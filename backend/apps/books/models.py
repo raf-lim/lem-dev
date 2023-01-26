@@ -7,6 +7,8 @@ from django_extensions.db.fields import (
     ModificationDateTimeField,
 )
 
+from .managers import AuthorManager, BookManager
+
 
 class Author(models.Model):
     """Model for books' authors."""
@@ -21,7 +23,6 @@ class Author(models.Model):
         max_length=64, null=True, blank=True, verbose_name=_("middle name")
     )
     last_name = models.CharField(max_length=64, verbose_name=_("last name"))
-    full_name = models.CharField(max_length=255, verbose_name=_("full name"))
     slug = AutoSlugField(populate_from=["first_name", "last_name"])
 
     birth_date = models.DateField(
@@ -37,14 +38,14 @@ class Author(models.Model):
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
 
-    # objects = AuthorManager()
+    objects = AuthorManager()
 
     # from apps.generic.modles import Highlight, Image
     # images = GenericRelation(Image, related_query_name="authors")
     # highlights = GenericRelation(Highlight, related_query_name="authors")
 
     def __str__(self) -> str:
-        return self.full_name
+        return f"{self.first_name} {self.last_name}"
 
 
 class Genre(models.Model):
@@ -68,6 +69,9 @@ class Genre(models.Model):
     )
 
     name = models.CharField(max_length=25, choices=GENRES)
+
+    def __str__(self):
+        return self.name
 
 
 class Book(models.Model):
@@ -95,6 +99,7 @@ class Book(models.Model):
     )
     original_title = models.CharField(
         max_length=255,
+        null=True,
         blank=True,
         validators=[
             RegexValidator(
@@ -105,21 +110,26 @@ class Book(models.Model):
         ],
     )
     year_of_publication = models.IntegerField()
-    publisher = models.ForeignKey("BookPublisher", on_delete=models.CASCADE)
+    # publisher = models.ForeignKey("BookPublisher", on_delete=models.CASCADE)
     issue_number = models.IntegerField(default=1)
     number_of_page = models.IntegerField()
     type_of_cover = models.CharField(max_length=55, choices=TYPE_OF_COVER)
     describe = models.TextField()
     publication_formats = models.CharField(max_length=55, choices=PUBLICATION_FORMATS)
-    language_provided = models.ForeignKey("BookLanguage", on_delete=models.CASCADE)
-    original_language = models.CharField(max_length=55)
-    dimensions = models.ForeignKey("BookSize", on_delete=models.CASCADE)
-    catalog_number = models.IntegerField()
-    ISBN_id = models.IntegerField()
+    # language_provided = models.ForeignKey("BookLanguage", on_delete=models.CASCADE)
+    # original_language = models.CharField(max_length=55)
+    # dimensions = models.ForeignKey("BookSize", on_delete=models.CASCADE)
+    # catalog_number = models.IntegerField()
+    # ISBN_id = models.IntegerField()
     genre = models.ManyToManyField(Genre, related_name="books")
 
     # author field
     author = models.ManyToManyField(Author, related_name="books")
+
+    objects = BookManager()
+
+    def __str__(self):
+        return self.title
 
 
 class BookLanguage(models.Model):
@@ -146,6 +156,6 @@ class Review(models.Model):
     """Review database model"""
 
     # author field
-    book = models.ForeignKey("Book", on_delete=models.CASCADE)
+    book = models.ForeignKey("Book", on_delete=models.CASCADE, related_name="reviews")
     content = models.CharField(max_length=255)
     score = models.IntegerField(default=0)
