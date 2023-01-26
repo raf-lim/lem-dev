@@ -7,31 +7,6 @@ from django_extensions.db.fields import (
     ModificationDateTimeField,
 )
 
-# from django.urls import reverse
-# from django.db.models import Avg
-# from django.db.models.query import QuerySet
-
-
-# TODO in progress
-# temporary here, move to books/models if available?
-
-# class AuthorManager(models.Manager):
-#     """Queryset manager for Author model."""
-
-#     # def get_queryset(self) -> QuerySet:
-#     #     """Build-in queryset"""
-#     #     return super().get_queryset()
-
-#     def genres(self) -> QuerySet:
-#         """Returns genres that author's books belong to."""
-#         # TODO query to be checked, not sure it works this way
-#         return self.books.genres.all().distinct()
-
-#     def scoring(self) -> float:
-#         """Returns average of author's books' scoring."""
-#         # TODO query to be checked, not sure it works this way
-#         return self.books.reviews.all().aggregate(Avg("score"))
-
 
 class Author(models.Model):
     """Model for books' authors."""
@@ -70,22 +45,6 @@ class Author(models.Model):
 
     def __str__(self) -> str:
         return self.full_name
-
-    # trial
-    def make_full_name(self) -> str:
-        """Author's full name."""
-        if not self.mid_name:
-            return f"{self.first_name} {self.last_name}"
-        return f"{self.first_name} {self.mid_name} {self.last_name}"
-
-    def get_absolute_url(self) -> str:
-        # return reverse("authors-detail", args=[self.slug])
-        pass
-
-    # TODO check the save function.
-    def save(self, *args, **kwargs):
-        self.full_name = self.make_full_name()
-        return super().save(*args, **kwargs)
 
 
 class Genre(models.Model):
