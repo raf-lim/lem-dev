@@ -2,18 +2,17 @@
 
 from rest_framework import serializers
 
-from .models import Comment, File, News, Tag
+from .models import Comment, News, Tag
 
+# class FileSerializer(serializers.ModelSerializer):
+#     """Serializer for File model."""
 
-class FileSerializer(serializers.ModelSerializer):
-    """Serializer for File model."""
+#     class Meta:
+#         model = File
+#         fields = "__all__"
 
-    class Meta:
-        model = File
-        fields = "__all__"
-
-    # serializing File object id (required for listing from property)
-    id = serializers.IntegerField(required=False)
+#     # serializing File object id (required for listing from property)
+#     id = serializers.IntegerField(required=False)
 
 
 class CommentSerializer(serializers.ModelSerializer):

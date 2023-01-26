@@ -7,20 +7,14 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from .models import Comment, File, News, Tag
-from .serializers import (
-    CommentSerializer,
-    FileSerializer,
-    NewsSerializer,
-    TagSerializer,
-)
+from .models import Comment, News, Tag
+from .serializers import CommentSerializer, NewsSerializer, TagSerializer
 
-
-class FileViewSet(viewsets.ModelViewSet):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer
-    # TODO remove, temporary
-    permission_classes = [AllowAny]
+# class FileViewSet(viewsets.ModelViewSet):
+#     queryset = File.objects.all()
+#     serializer_class = FileSerializer
+#     # TODO remove, temporary
+#     permission_classes = [AllowAny]
 
 
 class TagViewSet(viewsets.ModelViewSet):

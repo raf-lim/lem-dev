@@ -10,7 +10,7 @@ router = DefaultRouter()
 router.register("news", views.NewsViewSet)
 router.register("comments", views.CommentViewSet)
 router.register("tags", views.TagViewSet)
-router.register("files", views.FileViewSet)
+# router.register("files", views.FileViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

@@ -1,6 +1,6 @@
 """News app models"""
-from os.path import join
-from django.conf import settings
+
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import (
@@ -18,6 +18,7 @@ from django_extensions.db.fields import (
     ModificationDateTimeField,
 )
 
+# Awaiting generic models
 # from apps.generic.models import Like, File, Picture
 
 
@@ -33,7 +34,9 @@ class UserActionTimestampedMixin(models.Model):
     modified = ModificationDateTimeField()
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("user")
+        get_user_model(),
+        on_delete=models.CASCADE,
+        verbose_name=_("user"),
     )
 
 
@@ -66,9 +69,9 @@ class Tag(UserActionTimestampedMixin, PolymorphicRelationship):
     """Tag model"""
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["tag"]
 
-    name = models.CharField(
+    tag = models.CharField(
         unique=True,
         max_length=50,
         validators=[
@@ -78,10 +81,10 @@ class Tag(UserActionTimestampedMixin, PolymorphicRelationship):
         ],
         help_text=_("Must be unique, only alphanumeric allowed"),
     )
-    slug = AutoSlugField(populate_from="name")
+    slug = AutoSlugField(populate_from="tag")
 
     def __str__(self) -> str:
-        return self.name
+        return self.tag
 
 
 class Comment(UserActionTimestampedMixin, PolymorphicRelationship):
@@ -94,71 +97,6 @@ class Comment(UserActionTimestampedMixin, PolymorphicRelationship):
 
     def __str__(self) -> str:
         return self.body[:20]
-
-
-def directory_path(instance, filename: str) -> str:
-    """Returns file path including app name, media type, content type name,
-    and file object id.
-
-    Args:
-        instance (class instance): File or Image class object
-        filename (str): filename
-
-    Returns:
-        str: image's or file's path string
-    """
-    dir_path = join(
-        instance.content_type.app_label,
-        instance.MEDIA_TYPE,
-        f"{instance.content_type.name}-{instance.object_id}",
-    )
-    return join(dir_path, filename)
-
-
-class File(UserActionTimestampedMixin, PolymorphicRelationship):
-    MEDIA_TYPE = "files"
-
-    file = models.FileField(upload_to=directory_path, blank=True, null=True)
-    # TODO allow only one file?
-
-    def __str__(self) -> str:
-        return self.file.url
-
-
-class Image(UserActionTimestampedMixin, PolymorphicRelationship):
-    MEDIA_TYPE = "images"
-
-    image = models.ImageField(upload_to=directory_path, blank=True, null=True)
-    alt_text = models.CharField(max_length=255)
-    # TODO allow only one picture?
-
-    def __str__(self) -> str:
-        return self.image.url
-
-
-# TODO remove Like model when generic one ready to import.
-class Like(UserActionTimestampedMixin, PolymorphicRelationship):
-    like = models.BooleanField(default=True)
-
-    def __str__(self):
-        return str(self.like)
-
-
-# draft for further development depending on needs
-class NewsManager(models.Manager):
-    """Manager for News"""
-
-    def get_queryset(self):
-        """Returns queryset with published news objects."""
-        return self.all_objects().filter(is_published=True)
-
-    def all_objects(self):
-        """Returns queryest with all news objects (default get_queryset)"""
-        return super().get_queryset()
-
-    def inactive(self):
-        """Returns queryset with not published news objects"""
-        return self.all_objects().filter(is_published=False)
 
 
 class News(UserActionTimestampedMixin):
