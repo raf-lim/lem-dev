@@ -67,13 +67,13 @@ THIRD_PARTY_APPS = [
     "django_extensions",
 ]
 
-
 LOCAL_APPS = [
     "apps.users",
     "apps.forum",
     "apps.news",
     "apps.books",
     "apps.quotes",
+    "apps.generic",
     "apps.groups",
 ]
 

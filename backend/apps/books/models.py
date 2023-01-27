@@ -7,7 +7,7 @@ from django_extensions.db.fields import (
     ModificationDateTimeField,
 )
 
-from .managers import AuthorManager, BookManager
+from .managers import AuthorManager
 
 
 class Author(models.Model):
@@ -126,7 +126,7 @@ class Book(models.Model):
     # author field
     author = models.ManyToManyField(Author, related_name="books")
 
-    objects = BookManager()
+    # objects = BookManager()
 
     def __str__(self):
         return self.title
@@ -155,7 +155,6 @@ class BookSize(models.Model):
 class Review(models.Model):
     """Review database model"""
 
-    # author field
     book = models.ForeignKey("Book", on_delete=models.CASCADE, related_name="reviews")
     content = models.CharField(max_length=255)
     score = models.IntegerField(default=0)
