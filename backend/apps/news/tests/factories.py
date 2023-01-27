@@ -1,9 +1,8 @@
 import factory
+from apps.generic.models import Comment, Highlight, Tag
+from apps.users.tests.factories import UserFactory
 from django.contrib.contenttypes.models import ContentType
 from faker import Faker
-
-from apps.news.models import Comment, Highlight, Tag
-from apps.users.tests.factories import UserFactory
 
 fake = Faker()
 
@@ -34,7 +33,7 @@ class NewsFactory(UserActionTimestampedMixinFactory):
 
     title = fake.text(max_nb_chars=50)
     slug = fake.slug(title)
-    body = fake.text(max_nb_chars=160)
+    content = fake.text(max_nb_chars=160)
     is_published = False
     allow_highlights = True
     allow_likes = True
@@ -68,7 +67,7 @@ class CommentedNewsFactory(
     class Meta:
         model = Comment
 
-    body = fake.text()
+    content = fake.text()
     content_object = factory.SubFactory(NewsFactory)
 
 
@@ -78,5 +77,5 @@ class CommentedCommentFactory(
     class Meta:
         model = Comment
 
-    body = fake.text()
+    content = fake.text()
     content_object = factory.SubFactory(CommentedNewsFactory)

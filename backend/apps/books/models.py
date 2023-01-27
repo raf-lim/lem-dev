@@ -1,3 +1,5 @@
+from apps.generic.models import Highlight, Review, UserActionTimestampedMixin
+from django.contrib.contenttypes.fields import GenericRelation
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -10,7 +12,7 @@ from django_extensions.db.fields import (
 from .managers import AuthorManager
 
 
-class Author(models.Model):
+class Author(UserActionTimestampedMixin):
     """Model for books' authors."""
 
     class Meta:
@@ -42,7 +44,7 @@ class Author(models.Model):
 
     # from apps.generic.modles import Highlight, Image
     # images = GenericRelation(Image, related_query_name="authors")
-    # highlights = GenericRelation(Highlight, related_query_name="authors")
+    highlights = GenericRelation(Highlight, related_query_name="authors")
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
@@ -74,7 +76,7 @@ class Genre(models.Model):
         return self.name
 
 
-class Book(models.Model):
+class Book(UserActionTimestampedMixin):
     """Book database model"""
 
     TYPE_OF_COVER = (
@@ -110,23 +112,24 @@ class Book(models.Model):
         ],
     )
     year_of_publication = models.IntegerField()
-    # publisher = models.ForeignKey("BookPublisher", on_delete=models.CASCADE)
+    publisher = models.ForeignKey("BookPublisher", on_delete=models.CASCADE)
     issue_number = models.IntegerField(default=1)
     number_of_page = models.IntegerField()
     type_of_cover = models.CharField(max_length=55, choices=TYPE_OF_COVER)
     describe = models.TextField()
     publication_formats = models.CharField(max_length=55, choices=PUBLICATION_FORMATS)
-    # language_provided = models.ForeignKey("BookLanguage", on_delete=models.CASCADE)
-    # original_language = models.CharField(max_length=55)
-    # dimensions = models.ForeignKey("BookSize", on_delete=models.CASCADE)
-    # catalog_number = models.IntegerField()
-    # ISBN_id = models.IntegerField()
+    language_provided = models.ForeignKey("BookLanguage", on_delete=models.CASCADE)
+    original_language = models.CharField(max_length=55)
+    dimensions = models.ForeignKey("BookSize", on_delete=models.CASCADE)
+    catalog_number = models.IntegerField()
+    ISBN_id = models.IntegerField()
     genre = models.ManyToManyField(Genre, related_name="books")
-
-    # author field
     author = models.ManyToManyField(Author, related_name="books")
 
     # objects = BookManager()
+
+    highlight = GenericRelation(Highlight, related_query_name="books")
+    review = GenericRelation(Review, related_query_name="book")
 
     def __str__(self):
         return self.title
@@ -138,11 +141,17 @@ class BookLanguage(models.Model):
     language = models.CharField(max_length=50)
     shortcut_language = models.CharField(max_length=10)
 
+    def __str__(self) -> str:
+        return self.language
+
 
 class BookPublisher(models.Model):
     """Publisher for books database model"""
 
     publisher = models.CharField(max_length=50)
+
+    def __str__(self) -> str:
+        return self.publisher
 
 
 class BookSize(models.Model):
@@ -151,10 +160,5 @@ class BookSize(models.Model):
     x_size = models.IntegerField(default=0)
     y_size = models.IntegerField(default=0)
 
-
-class Review(models.Model):
-    """Review database model"""
-
-    book = models.ForeignKey("Book", on_delete=models.CASCADE, related_name="reviews")
-    content = models.CharField(max_length=255)
-    score = models.IntegerField(default=0)
+    def __str__(self) -> str:
+        return f"{self.x_size} x {self.y_size}"

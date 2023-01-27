@@ -22,6 +22,9 @@ class AuthorQuerySet(models.QuerySet):
         # return reverse("authors-detail", args=[self.slug])
         pass
 
+    def get_scoring_average(self, author_id):
+        pass
+
 
 class AuthorManager(models.Manager):
     """Model manager for Author's model."""

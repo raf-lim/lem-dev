@@ -1,8 +1,7 @@
 import pytest
-from django.contrib.contenttypes.models import ContentType
-
 from apps.generic.models import Reaction
 from apps.generic.tests.factories import ReactionGroupFactory, ReactionUserFactory
+from django.contrib.contenttypes.models import ContentType
 
 
 @pytest.mark.django_db()
