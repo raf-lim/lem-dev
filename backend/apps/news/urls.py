@@ -8,8 +8,9 @@ from . import views
 router = DefaultRouter()
 
 router.register("news", views.NewsViewSet)
-router.register("comments", views.CommentViewSet)
-router.register("tags", views.TagViewSet)
+# router.register("highlights", views.HighlightViewSet)
+# router.register("comments", views.CommentViewSet)
+# router.register("tags", views.TagViewSet)
 # router.register("files", views.FileViewSet)
 
 urlpatterns = [

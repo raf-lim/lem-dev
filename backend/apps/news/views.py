@@ -1,5 +1,10 @@
 """News app views"""
 
+from apps.generic.serializers import (
+    CommentSerializer,
+    HighlightSerializer,
+    TagSerializer,
+)
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse
 from rest_framework import viewsets
@@ -7,29 +12,8 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from .models import Comment, News, Tag
-from .serializers import CommentSerializer, NewsSerializer, TagSerializer
-
-# class FileViewSet(viewsets.ModelViewSet):
-#     queryset = File.objects.all()
-#     serializer_class = FileSerializer
-#     # TODO remove, temporary
-#     permission_classes = [AllowAny]
-
-
-class TagViewSet(viewsets.ModelViewSet):
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
-    # TODO remove, temporary
-    permission_classes = [AllowAny]
-
-
-class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-    # TODO remove, temporary
-    permission_classes = [AllowAny]
-    lookup_field = "pk"
+from .models import Comment, Highlight, News, Tag
+from .serializers import NewsSerializer
 
 
 class NewsViewSet(viewsets.ModelViewSet):

@@ -2,6 +2,7 @@ from apps.generic.models import Highlight, Review, UserActionTimestampedMixin
 from django.contrib.contenttypes.fields import GenericRelation
 from django.core.validators import RegexValidator
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import (
     AutoSlugField,
@@ -37,8 +38,6 @@ class Author(UserActionTimestampedMixin):
     allow_highlights = models.BooleanField(
         null=False, blank=False, default=True, verbose_name=_("allow highlights")
     )
-    created = CreationDateTimeField()
-    modified = ModificationDateTimeField()
 
     objects = AuthorManager()
 
@@ -48,6 +47,9 @@ class Author(UserActionTimestampedMixin):
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
+
+    def get_absolute_url(self):
+        return reverse("author-detail", args=[self.slug])
 
 
 class Genre(models.Model):
@@ -123,16 +125,19 @@ class Book(UserActionTimestampedMixin):
     dimensions = models.ForeignKey("BookSize", on_delete=models.CASCADE)
     catalog_number = models.IntegerField()
     ISBN_id = models.IntegerField()
-    genre = models.ManyToManyField(Genre, related_name="books")
-    author = models.ManyToManyField(Author, related_name="books")
+    genres = models.ManyToManyField(Genre, related_name="books")
+    authors = models.ManyToManyField(Author, related_name="books")
 
     # objects = BookManager()
 
-    highlight = GenericRelation(Highlight, related_query_name="books")
-    review = GenericRelation(Review, related_query_name="book")
+    highlights = GenericRelation(Highlight, related_query_name="books")
+    reviews = GenericRelation(Review, related_query_name="book")
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("book-detail", args=[self.title])
 
 
 class BookLanguage(models.Model):

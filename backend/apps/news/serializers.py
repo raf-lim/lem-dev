@@ -1,42 +1,9 @@
 """News app serializers."""
 
+from apps.generic.models import Comment, Highlight, Tag
 from rest_framework import serializers
 
-from .models import Comment, News, Tag
-
-# class FileSerializer(serializers.ModelSerializer):
-#     """Serializer for File model."""
-
-#     class Meta:
-#         model = File
-#         fields = "__all__"
-
-#     # serializing File object id (required for listing from property)
-#     id = serializers.IntegerField(required=False)
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    """Serializer for Comment model."""
-
-    class Meta:
-        model = Comment
-        fields = "__all__"
-        read_only_fields = ("news",)
-
-    # serializing Comment object id (required for listing from property)
-    id = serializers.IntegerField(required=False)
-
-
-class TagSerializer(serializers.ModelSerializer):
-    """Serializer for Tag model."""
-
-    class Meta:
-        model = Tag
-        fields = "__all__"
-        read_only_fields = ("news",)
-
-    # serializing Tag object id (required for listing from property)
-    id = serializers.IntegerField(required=False)
+from .models import News
 
 
 class NewsSerializer(serializers.ModelSerializer):
