@@ -115,7 +115,7 @@ class Comment(UserActionTimestampedMixin, PolymorphicRelationship):
     reaction = GenericRelation(Reaction, related_query_name="comment")
 
     def __str__(self) -> str:
-        return self.body[:20]
+        return self.content[:20]
 
 
 class Review(UserActionTimestampedMixin, PolymorphicRelationship):
