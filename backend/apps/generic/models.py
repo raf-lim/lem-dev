@@ -1,4 +1,3 @@
-from apps.generic.managers import ReactionManager
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -112,7 +111,7 @@ class Tag(UserActionTimestampedMixin, PolymorphicRelationship):
 class Comment(UserActionTimestampedMixin, PolymorphicRelationship):
     """Comment model"""
 
-    content = models.TextField(null=False, blank=False)
+    content = models.TextField()
     reaction = GenericRelation(Reaction, related_query_name="comment")
 
     def __str__(self) -> str:
@@ -122,7 +121,7 @@ class Comment(UserActionTimestampedMixin, PolymorphicRelationship):
 class Review(UserActionTimestampedMixin, PolymorphicRelationship):
     """Review database model"""
 
-    content = models.CharField(max_length=255)
+    content = models.TextField()
     score = models.IntegerField(default=0)
     reaction = GenericRelation(Reaction, related_query_name="review")
 
